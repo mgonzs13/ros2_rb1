@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<robot name="speak_external" xmlns:xacro="http://www.ros.org/wiki/xacro">  
+
+  <link name="speak_external_link">
+    
+  </link>
+
+  <gazebo reference="right_speak_link">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <gazebo reference="left_speak_link">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <link name="right_speak_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia ixx="0.001"  ixy="0"  ixz="0" iyy="0.001" iyz="0" izz="0.001" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.08 0.065 0.11" />
+      </geometry>
+      <material name="darkgrey">
+        <color rgba="0 1.0 1.0 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.08 0.065 0.11" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="left_speak_link">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia ixx="0.001"  ixy="0"  ixz="0" iyy="0.001" iyz="0" izz="0.001" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.08 0.065 0.11" />
+      </geometry>
+      <material name="darkgrey">
+        <color rgba="0 1.0 1.0 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.08 0.065 0.11" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="right_speak_joint" type="fixed">
+      <parent link="speak_external_link"/>
+      <child link="right_speak_link"/>
+      <origin xyz="0 0.1775 0"/>
+  </joint>
+
+  <joint name="left_speak_joint" type="fixed">
+      <parent link="speak_external_link"/>
+      <child link="left_speak_link"/>
+      <origin xyz="0 -0.1775 0"/>
+  </joint>
+
+</robot>

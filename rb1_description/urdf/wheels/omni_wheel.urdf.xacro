@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<robot name="omnidirectional_wheel" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:property name="M_PI" value="3.1415926535897931" />
+  <!-- Wheels -->
+  <xacro:property name="omni_wheel_radius" value="0.051" /> 
+  <xacro:property name="omni_wheel_height" value="0.025" />
+  <xacro:property name="omni_wheel_mass" value="0.3" /> <!-- in kg-->
+
+  <xacro:macro name="sphere_inertia" params="m r">
+    <inertia  ixx="${(2*m*r*r)/5}" ixy = "0" ixz = "0"
+              iyy="${(2*m*r*r)/5}" iyz = "0"
+              izz="${(2*m*r*r)/5}" /> 
+  </xacro:macro> 
+  <xacro:macro name="omni_wheel" params="prefix parent *origin hq">
+  
+    <!--WHEEL TIRE -->
+    <joint name="${prefix}_wheel_joint" type="fixed">
+      <parent link="${parent}"/>
+      <child link="${prefix}_wheel_link"/>
+      <xacro:insert_block name="origin" />
+      <axis xyz="0 1 0" rpy="0 0 0" />
+      <limit effort="100" velocity="100"/>
+      <joint_properties damping="0.0" friction="0.0"/>
+    </joint>
+  
+    <link name="${prefix}_wheel_link">
+      <visual>
+        <!-- HIGH RESOLUTION WHEELS -->
+        <xacro:if value="${hq}">
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <geometry>     
+                <mesh filename="package://rb1_description/meshes/wheels/wheel_omni_4inch.dae" />
+          </geometry>         
+        </xacro:if>
+       <!-- LOW RESOLUTION WHEELS -->
+        <xacro:unless value="${hq}">
+          <origin xyz="0 0 0" rpy="${M_PI/2} 0 0" />
+          <geometry>           
+            <cylinder length="${omni_wheel_height}" radius="${omni_wheel_radius}" />
+          </geometry>      
+        </xacro:unless>
+      </visual>
+     
+      <collision>
+      <origin xyz="0 0 0" rpy="${M_PI/2} 0 0" />      
+       <geometry>
+         <sphere radius="${omni_wheel_radius}"/>
+       </geometry>
+      </collision>
+      
+      <inertial>
+        <mass value="${wheel_mass}" />
+        <origin xyz="0 0 0" />
+        <xacro:sphere_inertia  m="${omni_wheel_mass}" r="${omni_wheel_radius}"/>
+        <inertia  ixx="0.000235075" ixy="0.0"  ixz="0.0"  iyy="0.000235075"  iyz="0.0"  izz="0.00039015" />
+      </inertial>
+    </link>
+
+    <gazebo reference="${prefix}_wheel_link">
+        <mu1 value="0.0"/>
+        <mu2 value="0.0"/>
+        <kp value="10000000.0" /> 
+        <kd value="1.0" />
+        <fdir1 value="1 0 0"/>
+        <material>Gazebo/Blue</material>
+        <turnGravityOff>false</turnGravityOff>
+    </gazebo>
+    
+   
+  </xacro:macro>
+
+</robot>

@@ -1,0 +1,252 @@
+<?xml version="1.0"?>
+<robot name="torso_3dof" xmlns:xacro="http://www.ros.org/wiki/xacro"> 
+
+  <xacro:include filename="$(find rb1_description)/urdf/torsos/torso_3dof.gazebo.xacro" />
+  <xacro:include filename="$(find rb1_description)/urdf/torsos/torso_base_arm.urdf.xacro" />
+  <xacro:include filename="$(find rb1_description)/urdf/others/speak_external.urdf.xacro" />
+
+  <xacro:property name="joint_effort_limit" value="100.0"/>
+  <xacro:property name="joint_velocity_limit" value="3.0"/>
+  <xacro:property name="joint_effort_limit_torso" value="5000.0"/>
+  <xacro:property name="joint_velocity_limit_torso" value="1.0"/>
+  <xacro:property name="joint_damping" value="0.5"/>
+  <xacro:property name="joint_friction" value="0.5"/>
+
+  <xacro:property name="j1_torso_mechanical_reduction" value="320.0"/>
+  <xacro:property name="j1_torso_motor_torque_constant" value="1.0"/>
+  <xacro:property name="j1_head_mechanical_reduction" value="320.0"/>
+  <xacro:property name="j1_head_motor_torque_constant" value="1.0"/>
+  <xacro:property name="j2_head_mechanical_reduction" value="320.0"/>
+  <xacro:property name="j2_head_motor_torque_constant" value="1.0"/>
+
+  <xacro:macro name="torso_3dof" params="name hq">
+
+  <!-- parameters -->
+  <xacro:property name="PI" value="3.1415926535897931"/>
+ 
+  <!-- BASE_LINK -->
+  <link
+    name="base_torso_link">
+  </link>        
+  
+  <link name="torso_back_link">
+    <inertial>
+      <mass value="3.0" />
+      <origin xyz="-0.15 0 0" />
+      <inertia  ixx="0.15" ixy="0.0"  ixz="0.0"  iyy="0.15"  iyz="0.0"  izz="0.15" />
+    </inertial>
+    
+    <visual>
+       <origin xyz="0 0 0" rpy="0 0 0" />
+       <xacro:if value="${hq}">
+       <geometry>
+         <mesh filename="package://rb1_description/meshes/torsos/lower.dae"/>
+       </geometry>
+       </xacro:if>
+       <xacro:unless value="${hq}">
+       <geometry>
+       <mesh filename="package://rb1_description/meshes/torsos/lower.stl"/>
+       </geometry>
+       </xacro:unless>
+       <material name="darkgrey">
+         <color rgba="0.1 0.1 0.1 1"/>
+       </material>
+    </visual>
+
+    <collision>
+       <origin xyz="0 0 0" rpy="0 0 0 " />
+       <geometry>
+         <mesh filename="package://rb1_description/meshes/torsos/lower.dae"/>
+       </geometry>
+    </collision>
+  </link>
+
+  <joint name="j0_torso" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="base_torso_link" />
+    <child link="torso_back_link" />
+    <axis xyz="0 0 0" />
+  </joint>
+
+  <link name="torso_front_link">
+    <inertial>
+      <mass value="2.0" />
+      <origin xyz="-0.15 0 0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="1.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+  
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <xacro:if value="${hq}">
+      <geometry>
+        <mesh filename="package://rb1_description/meshes/torsos/upper.dae"/>
+      </geometry>
+  
+      </xacro:if>
+      <xacro:unless value="${hq}">
+      <geometry>
+        <mesh filename="package://rb1_description/meshes/torsos/upper.stl"/>
+      </geometry>
+      
+      </xacro:unless>
+      <material name="darkgrey">
+        <color rgba="0.1 0.1 0.1 1"/>
+      </material>
+    </visual>  
+    
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0 " />
+      <geometry>
+        <mesh filename="package://rb1_description/meshes/torsos/upper.dae"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="j1_torso" type="prismatic">
+    <origin xyz="0 0 0.03" rpy="0 0 0" />
+    <parent link="base_torso_link" />    
+      <child link="torso_front_link" />
+      <axis xyz="0 0 1" />
+      <limit effort="${joint_effort_limit_torso}" velocity="${joint_velocity_limit_torso}" upper="${0.360}" lower="${0}"/>
+      <dynamics damping="${joint_damping}" friction="50.0"/>
+  </joint>
+
+  <transmission name="j1_torso_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+      <joint name="j1_torso">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      
+      <actuator name="j1_torso_motor">        
+        <mechanicalReduction>${j1_torso_mechanical_reduction}</mechanicalReduction>
+        <motorTorqueConstant>${j1_torso_motor_torque_constant}</motorTorqueConstant>
+      </actuator>     
+   </transmission>
+
+  <link name="head_link">
+    <inertial>
+      <mass value="1.0" />
+      <origin xyz="0 0 0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="1.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+    
+    <visual>
+      
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <xacro:if value="${hq}">
+      <geometry>
+        <mesh filename="package://rb1_description/meshes/heads/head1.dae"/>
+      </geometry>
+      
+      </xacro:if>
+      <xacro:unless value="${hq}">
+        <geometry>
+          <mesh filename="package://rb1_description/meshes/heads/head1.stl"/>
+        </geometry>
+      </xacro:unless>
+      
+      <material name="darkgrey">
+         <color rgba="0.1 0.1 0.1 1"/>
+      </material>
+    </visual>  
+   
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0 " />
+      <geometry>
+        <mesh filename="package://rb1_description/meshes/heads/head1.dae"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="j1_head" type="revolute">
+    <origin xyz="0.010 0.0 0.940" rpy="0 0 0" />
+    <parent link="torso_front_link" />    
+    <child link="head_link" />
+    <axis xyz="0 0 1" />
+    <limit effort="${joint_effort_limit}" velocity="${joint_velocity_limit}" upper="${PI/2}" lower="${-PI/2}"/>
+    <dynamics damping="${joint_damping}" friction="${joint_friction}"/>
+  </joint>
+
+  <transmission name="j1_head_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="j1_head">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>     
+    <actuator name="j1_head_motor">
+      <mechanicalReduction>${j1_head_mechanical_reduction}</mechanicalReduction>
+      <motorTorqueConstant>${j1_head_motor_torque_constant}</motorTorqueConstant>
+    </actuator>     
+  </transmission>
+
+
+  <link name="eyes_link">
+    <inertial>
+      <mass value="1.0" />
+      <origin xyz="0 0 0" />
+      <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="1.0"  iyz="0.0"  izz="1.0" />
+    </inertial>
+    
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <xacro:if value="${hq}">
+      <geometry>
+        <mesh filename="package://rb1_description/meshes/heads/head2.dae"/>
+      </geometry>
+    
+      </xacro:if>
+      <xacro:unless value="${hq}">
+      <geometry>
+        <mesh filename="package://rb1_description/meshes/heads/head2.stl"/>
+      </geometry>
+      
+      </xacro:unless>
+       <material name="darkgrey">
+        <color rgba="0.1 0.1 0.1 1"/>
+       </material>
+    </visual>  
+    
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0 " />
+      <geometry>
+        <mesh filename="package://rb1_description/meshes/heads/head2.dae"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="j2_head"    type="revolute">
+    <origin xyz="0.105 0.0 0.0" rpy="0 0 0" />
+    <parent link="head_link" />    
+    <child link="eyes_link" />
+    <!-- check --> <!-- axis xyz="0 1 0" / -->
+    <axis xyz="0 -1 0"/>
+    <limit effort="${joint_effort_limit}" velocity="${joint_velocity_limit}" upper="${PI/4}" lower="${-PI/4}"/>
+    <dynamics damping="${joint_damping}" friction="${joint_friction}"/>
+  </joint>
+
+  <transmission name="j2_head_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="j2_head">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="j2_head_motor">     
+      <mechanicalReduction>${j2_head_mechanical_reduction}</mechanicalReduction>
+      <motorTorqueConstant>${j2_head_motor_torque_constant}</motorTorqueConstant>
+    </actuator>     
+  </transmission>
+
+  <joint name="torso_arm_joint" type="fixed">
+    <origin xyz="-0.0127 0 0.251" rpy="0.0 0.0 0.0" />
+    <parent link="torso_front_link" />
+    <child link="torso_arm_link" />
+    <axis xyz="0 0 0" />
+  </joint>
+
+  <joint name="head_speaker_joint" type="fixed">
+    <origin xyz="0.035 0 0" rpy="0 0 0" />
+    <parent link="head_link" />
+    <child link="speak_external_link" />
+    <axis xyz="0 0 0" />
+  </joint>
+
+  </xacro:macro>
+</robot>

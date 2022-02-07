@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<robot name="rb1_torso" xmlns:xacro="http://www.ros.org/wiki/xacro"> 
+
+    <!-- ***************** -->
+    <!-- Imported elements -->
+    <!-- ***************** -->    
+    <!-- First we import all posible elements defined in the urdf.xacro files. All these elements are defined as macro:xacros -->
+
+    <!-- Import RB1 arm elements -->
+    <xacro:include filename="$(find rb1_description)/urdf/torsos/torso_3dof.urdf.xacro" />
+
+    <!-- Import all available sensors -->
+    <xacro:include filename="$(find rb1_description)/urdf/sensors/all_sensors.urdf.xacro" />
+    
+    <!-- ***************** -->
+    <!-- Global parameters -->
+    <!-- ***************** -->  
+    <xacro:property name="PI" value="3.1415926535897931"/>
+      
+    <!-- Flag to select the high or low quality model -->
+    <xacro:property name="hq" value="true" />
+
+    <!-- RB-1 torso -->
+    <xacro:torso_3dof name="torso_3dof" hq="${hq}" />
+
+    <!-- xtion sensor in head -->
+    <xacro:property name="M_SCALE_XTION" value="0.001"/>
+    <xacro:property name="asus_xtion_pro_depth_rel_rgb_py" value="0.0270" />
+    <xacro:property name="asus_xtion_pro_cam_rel_rgb_py"   value="-0.0220" />
+    <xacro:property name="M_PI" value="3.1415926535897931" />
+
+    <xacro:sensor_asus_xtion prefix="camera" parent="eyes_link">
+        <origin xyz="0.043 0.0 0.025" rpy="0 0 0"/>
+    </xacro:sensor_asus_xtion>
+
+</robot>
