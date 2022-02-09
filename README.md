@@ -8,7 +8,7 @@ This is a RB1 simulator for ROS 2 (Foxy).
 rosdep install --from-paths src --ignore-src -r -y
 ```
 
-## RB1 Usage
+## Usage
 
 ```shell
 ros2 launch rb1_gazebo granny.launch.py

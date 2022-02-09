@@ -22,7 +22,7 @@
       <visual>
         <origin xyz="0 0 -0.05" rpy="0 0 0"/>
         <geometry>
-            <mesh filename="package://rover_description/meshes/sensors/hokuyo/hokuyo_ust_20lx.dae"/>
+            <mesh filename="package://rb1_description/meshes/sensors/hokuyo/hokuyo_ust_20lx.dae"/>
         </geometry>
       </visual>
   
