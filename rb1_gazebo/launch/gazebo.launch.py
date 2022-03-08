@@ -20,7 +20,7 @@ def generate_launch_description():
     world_cmd = DeclareLaunchArgument(
         "world",
         default_value=os.path.join(
-            get_package_share_directory("rb1_gazebo"), "world", "empty.world"),
+            get_package_share_directory("rb1_gazebo"), "worlds", "empty.world"),
         description="Gazebo world")
 
     launch_gui = LaunchConfiguration("launch_gui")
