@@ -70,7 +70,7 @@ def generate_launch_description():
     start_lifecycle_manager_cmd = Node(
         package="nav2_lifecycle_manager",
         executable="lifecycle_manager",
-        node_name="lifecycle_manager_slam",
+        name="lifecycle_manager_slam",
         output="screen",
         parameters=[{"use_sim_time": use_sim_time},
                     {"autostart": autostart},

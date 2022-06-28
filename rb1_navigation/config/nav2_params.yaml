@@ -195,23 +195,24 @@ local_costmap:
     ros__parameters:
       update_frequency: 5.0
       publish_frequency: 2.0
-      global_frame: map
+      global_frame: odom
       robot_base_frame: base_footprint
       use_sim_time: True
-      rolling_window: True
-      width: 6
-      height: 6
+      rolling_window: true
+      width: 3
+      height: 3
       resolution: 0.05
-      robot_radius: 0.3
+      robot_radius: 0.22
       plugins: [voxel_layer, inflation_layer]
       inflation_layer:
         plugin: nav2_costmap_2d::InflationLayer
         cost_scaling_factor: 3.0
-        inflation_radius: 0.4
+        inflation_radius: 0.55
       voxel_layer:
         plugin: nav2_costmap_2d::VoxelLayer
         enabled: True
         publish_voxel_map: True
+        origin_z: 0.0
         z_resolution: 0.05
         z_voxels: 16
         max_obstacle_height: 2.0
@@ -243,6 +244,7 @@ global_costmap:
       use_sim_time: True
       robot_radius: 0.22
       resolution: 0.05
+      track_unknown_space: true
       plugins: [static_layer, obstacle_layer, inflation_layer]
       obstacle_layer:
         plugin: nav2_costmap_2d::ObstacleLayer
@@ -259,6 +261,7 @@ global_costmap:
         map_subscribe_transient_local: True
       inflation_layer:
         plugin: nav2_costmap_2d::InflationLayer
+        cost_scaling_factor: 3.0
         inflation_radius: 0.4
       always_send_full_costmap: True
   global_costmap_client:
@@ -288,9 +291,9 @@ planner_server:
     planner_plugins: [GridBased]
     GridBased:
       plugin: nav2_navfn_planner/NavfnPlanner
-      tolerance: 1.5
+      tolerance: 0.5
       use_astar: False
-      allow_unknown: False
+      allow_unknown: True
 
 planner_server_rclcpp_node:
   ros__parameters:
