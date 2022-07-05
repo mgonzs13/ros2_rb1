@@ -1,6 +1,6 @@
 # ros2_rb1
 
-This is a RB1 simulator for ROS 2 (Foxy).
+This is a RB1 simulator for ROS 2.
 
 ## Dependencies
 
