@@ -18,7 +18,6 @@
   <!-- Conollers -->
   <gazebo>
     <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
-      <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>
       <parameters>$(find rb1_description)/config/rb1_control.yaml</parameters>
     </plugin>
   </gazebo>

@@ -15,6 +15,7 @@ torso_controller:
   ros__parameters:
     joints:
       - j1_torso
+    interface_name: position
     command_interfaces:
       - position
     state_interfaces:
@@ -27,14 +28,10 @@ head_controller:
     joints:
       - j1_head
       - j2_head
+    interface_name: position
     command_interfaces:
       - position
     state_interfaces:
       - position
       - velocity
       - effort
-
-joint_state_broadcaster:
-  ros__parameters:
-    publish_rate: 100.0
-    use_sim_time: true
