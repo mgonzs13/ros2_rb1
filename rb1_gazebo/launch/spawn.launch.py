@@ -63,24 +63,27 @@ def generate_launch_description():
     )
 
     joint_state_broadcaster_spawner = Node(
+        name="joint_state_broadcaster_spawner",
         package="controller_manager",
-        executable="spawner.py",
+        executable="spawner",
         arguments=["joint_state_broadcaster",
                    "--controller-manager", "/controller_manager",
                    "--controller-manager-timeout", "120"],
     )
 
     torso_controller_spawner = Node(
+        name="torso_controller_spawner",
         package="controller_manager",
-        executable="spawner.py",
+        executable="spawner",
         arguments=["torso_controller",
                    "--controller-manager", "/controller_manager",
                    "--controller-manager-timeout", "120"],
     )
 
     head_controller_spawner = Node(
+        name="head_controller_spawner",
         package="controller_manager",
-        executable="spawner.py",
+        executable="spawner",
         arguments=["head_controller",
                    "--controller-manager", "/controller_manager",
                    "--controller-manager-timeout", "120"],
