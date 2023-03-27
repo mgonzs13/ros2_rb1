@@ -77,9 +77,9 @@ def generate_launch_description():
         default_value="0.0",
         description="Initial pose yaw")
 
-    nav2_bringup_cmd = IncludeLaunchDescription(
+    bringup_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(launch_dir, "nav2_bringup.launch.py")),
+            os.path.join(launch_dir, "bringup.launch.py")),
         launch_arguments={"launch_rviz": launch_rviz,
                           "slam": slam,
                           "params_file": params_file,
@@ -104,6 +104,6 @@ def generate_launch_description():
     ld.add_action(initial_pose_z_cmd)
     ld.add_action(initial_pose_yaw_cmd)
 
-    ld.add_action(nav2_bringup_cmd)
+    ld.add_action(bringup_cmd)
 
     return ld
