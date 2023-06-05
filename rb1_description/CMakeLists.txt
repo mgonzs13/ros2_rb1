@@ -11,7 +11,7 @@ find_package(joint_state_broadcaster REQUIRED)
 find_package(position_controllers REQUIRED)
 
 install(
-  DIRECTORY config meshes robots urdf
+  DIRECTORY config launch meshes robots urdf
   DESTINATION share/${PROJECT_NAME}
 )
 

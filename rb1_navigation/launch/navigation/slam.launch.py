@@ -1,7 +1,21 @@
+# Copyright (C) 2023  Miguel Ángel González Santamarta
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+
 import os
-
 from ament_index_python.packages import get_package_share_directory
-
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.conditions import IfCondition, UnlessCondition
@@ -25,7 +39,8 @@ def generate_launch_description():
     # Getting directories and launch-files
     bringup_dir = get_package_share_directory("nav2_bringup")
     slam_toolbox_dir = get_package_share_directory("slam_toolbox")
-    slam_launch_file = os.path.join(slam_toolbox_dir, "launch", "online_sync_launch.py")
+    slam_launch_file = os.path.join(
+        slam_toolbox_dir, "launch", "online_sync_launch.py")
 
     # Create our own temporary YAML files that include substitutions
     param_substitutions = {
@@ -64,21 +79,21 @@ def generate_launch_description():
     # Nodes launching commands
 
     start_map_saver_server_cmd = Node(
-            package="nav2_map_server",
-            executable="map_saver_server",
-            output="screen",
-            respawn=use_respawn,
-            respawn_delay=2.0,
-            parameters=[configured_params])
+        package="nav2_map_server",
+        executable="map_saver_server",
+        output="screen",
+        respawn=use_respawn,
+        respawn_delay=2.0,
+        parameters=[configured_params])
 
     start_lifecycle_manager_cmd = Node(
-            package="nav2_lifecycle_manager",
-            executable="lifecycle_manager",
-            name="lifecycle_manager_slam",
-            output="screen",
-            parameters=[{"use_sim_time": use_sim_time},
-                        {"autostart": autostart},
-                        {"node_names": lifecycle_nodes}])
+        package="nav2_lifecycle_manager",
+        executable="lifecycle_manager",
+        name="lifecycle_manager_slam",
+        output="screen",
+        parameters=[{"use_sim_time": use_sim_time},
+                    {"autostart": autostart},
+                    {"node_names": lifecycle_nodes}])
 
     # If the provided param file doesn"t have slam_toolbox params, we must remove the "params_file"
     # LaunchConfiguration, or it will be passed automatically to slam_toolbox and will not load

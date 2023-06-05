@@ -1,7 +1,21 @@
+# Copyright (C) 2023  Miguel Ángel González Santamarta
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+
 import os
-
 from ament_index_python.packages import get_package_share_directory
-
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, GroupAction, SetEnvironmentVariable
 from launch.conditions import IfCondition
@@ -32,14 +46,8 @@ def generate_launch_description():
                        "bt_navigator",
                        "waypoint_follower"]
 
-    # Map fully qualified names to relative ones so the node"s namespace can be prepended.
-    # In case of the transforms (tf), currently, there doesn"t seem to be a better alternative
-    # https://github.com/ros/geometry2/issues/32
-    # https://github.com/ros/robot_state_publisher/pull/30
-    # TODO(orduno) Substitute with `PushNodeRemapping`
-    #              https://github.com/ros2/launch_ros/issues/56
     remappings = [("/tf", "tf"),
-                  ("/tf_static", "tf_static"), 
+                  ("/tf_static", "tf_static"),
                   ("/cmd_vel", cmd_vel_topic)]
 
     # Create our own temporary YAML files that include substitutions
@@ -48,10 +56,10 @@ def generate_launch_description():
         "autostart": autostart}
 
     configured_params = RewrittenYaml(
-            source_file=params_file,
-            root_key=namespace,
-            param_rewrites=param_substitutions,
-            convert_types=True)
+        source_file=params_file,
+        root_key=namespace,
+        param_rewrites=param_substitutions,
+        convert_types=True)
 
     stdout_linebuf_envvar = SetEnvironmentVariable(
         "RCUTILS_LOGGING_BUFFERED_STREAM", "1")
@@ -91,7 +99,7 @@ def generate_launch_description():
         "cmd_vel_topic",
         default_value="/cmd_vel",
         description="cmd_vel topic (for remmaping)")
-    
+
     load_nodes = GroupAction(
         condition=IfCondition(PythonExpression(["not ", use_composition])),
         actions=[

@@ -1,7 +1,21 @@
+# Copyright (C) 2023  Miguel Ángel González Santamarta
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+
 import os
-
 from ament_index_python.packages import get_package_share_directory
-
 from launch import LaunchDescription
 from launch.actions import (DeclareLaunchArgument, GroupAction,
                             IncludeLaunchDescription, SetEnvironmentVariable)
@@ -28,7 +42,7 @@ def generate_launch_description():
     use_namespace = LaunchConfiguration("use_namespace")
     slam = LaunchConfiguration("slam")
     map_yaml_file = LaunchConfiguration(
-        "map", 
+        "map",
         default=os.path.join(
             bringup_dir,
             "maps/apartamento_leon",
@@ -51,12 +65,6 @@ def generate_launch_description():
     initial_pose_z = LaunchConfiguration("initial_pose_z")
     initial_pose_yaw = LaunchConfiguration("initial_pose_yaw")
 
-    # Map fully qualified names to relative ones so the node"s namespace can be prepended.
-    # In case of the transforms (tf), currently, there doesn"t seem to be a better alternative
-    # https://github.com/ros/geometry2/issues/32
-    # https://github.com/ros/robot_state_publisher/pull/30
-    # TODO(orduno) Substitute with `PushNodeRemapping`
-    #              https://github.com/ros2/launch_ros/issues/56
     remappings = [("/tf", "tf"),
                   ("/tf_static", "tf_static"),
                   ("/cmd_vel", cmd_vel_topic)]
@@ -120,7 +128,7 @@ def generate_launch_description():
         "cmd_vel_topic",
         default_value="/cmd_vel",
         description="cmd_vel topic (for remmaping)")
-    
+
     launch_rviz_cmd = DeclareLaunchArgument(
         "launch_rviz",
         default_value="True",
@@ -135,7 +143,7 @@ def generate_launch_description():
         "initial_pose_y",
         default_value="6.544",
         description="Initial pose y")
-    
+
     initial_pose_z_cmd = DeclareLaunchArgument(
         "initial_pose_z",
         default_value="0.0",
@@ -162,7 +170,8 @@ def generate_launch_description():
             output="screen"),
 
         IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(os.path.join(launch_dir, "slam.launch.py")),
+            PythonLaunchDescriptionSource(
+                os.path.join(launch_dir, "slam.launch.py")),
             condition=IfCondition(slam),
             launch_arguments={"namespace": namespace,
                               "use_sim_time": use_sim_time,
@@ -188,7 +197,8 @@ def generate_launch_description():
                               "container_name": "nav2_container"}.items()),
 
         IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(os.path.join(launch_dir, "navigation.launch.py")),
+            PythonLaunchDescriptionSource(os.path.join(
+                launch_dir, "navigation.launch.py")),
             launch_arguments={"namespace": namespace,
                               "cmd_vel_topic": cmd_vel_topic,
                               "use_sim_time": use_sim_time,
