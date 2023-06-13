@@ -12,7 +12,6 @@
   <depend>rb1_navigation</depend>
   <depend>xacro</depend>
   <depend>rviz2</depend>
-  <depend>gazebo</depend>
   <depend>gazebo_ros</depend>
   <depend>robot_state_publisher</depend>
   <depend>controller_manager</depend>

@@ -9,7 +9,6 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <depend>gazebo</depend>
   <depend>gazebo_ros2_control</depend>
   <depend>gazebo_ros_pkgs</depend>
   <depend>gazebo_plugins</depend>
