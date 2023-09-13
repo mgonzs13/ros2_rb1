@@ -53,6 +53,9 @@ def generate_launch_description():
     # Create our own temporary YAML files that include substitutions
     param_substitutions = {
         "use_sim_time": use_sim_time,
+        "default_nav_to_pose_bt_xml": os.path.join(
+            get_package_share_directory("nav2_bt_navigator"),
+            "behavior_trees", "navigate_w_replanning_only_if_path_becomes_invalid.xml"),
         "autostart": autostart}
 
     configured_params = RewrittenYaml(
