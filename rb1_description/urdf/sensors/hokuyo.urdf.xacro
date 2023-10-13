@@ -91,6 +91,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>. -->
                 <plugin name="${prefix}_controller" filename="libgazebo_ros_ray_sensor.so">
                   <ros>
                     <argument>~/out:=scan</argument>
+                      <qos>
+                        <topic name="scan">
+                          <publisher>
+                            <reliability>best_effort</reliability>
+                          </publisher>
+                        </topic>
+                      </qos>
                   </ros>
                   <output_type>sensor_msgs/LaserScan</output_type>
                   <frame_name>${prefix}_link</frame_name>
