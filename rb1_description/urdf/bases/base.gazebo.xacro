@@ -20,6 +20,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>. -->
     <gazebo>
         <plugin name='diff_base_controller' filename='libgazebo_ros_diff_drive.so'>
 
+            <ros>
+                <remapping>odom:=/robotnik_base_control/odom</remapping>
+            </ros>
+
             <update_rate>100</update_rate>
             <always_on>true</always_on>
 
@@ -29,7 +33,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>. -->
 
             <!-- kinematics -->
             <wheel_separation>0.433</wheel_separation>
-            <wheel_diameter>0.1524</wheel_diameter>
+            <wheel_diameter>0.152</wheel_diameter>
 
             <!-- limits -->
             <max_wheel_torque>20</max_wheel_torque>

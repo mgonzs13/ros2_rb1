@@ -45,10 +45,10 @@ def generate_launch_description():
                           "world": world,
                           "initial_nav_pose_x": "0.0",
                           "initial_nav_pose_y": "0.0",
-                          "initial_nav_pose_yaw": "0.0",
+                          "initial_nav_pose_yaw": "3.1415",
                           "initial_gaz_pose_x": "0.0",
                           "initial_gaz_pose_y": "0.0",
-                          "initial_gaz_pose_yaw": "3.1415"}.items())
+                          "initial_gaz_pose_yaw": "0.0"}.items())
 
     ld = LaunchDescription()
 
