@@ -28,7 +28,7 @@ def generate_launch_description():
 
     launch_file_dir = os.path.join(
         get_package_share_directory("rb1_gazebo"), "launch")
-    pkg_gazebo_ros = get_package_share_directory("gazebo_ros")
+    pkg_gazebo_ros = get_package_share_directory("ros_ign_gazebo")
 
     ### ARGS ###
     world = LaunchConfiguration("world")
@@ -84,12 +84,19 @@ def generate_launch_description():
         condition=IfCondition(PythonExpression([launch_rviz]))
     )
 
+    gz_bridge_cmd = Node(
+        package="ros_gz_bridge",
+        executable="parameter_bridge",
+        arguments=["/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock"],
+        output="screen"
+    )
+
     ### LAUNCHS ###
     gazebo_cmd = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(pkg_gazebo_ros, "launch", "gazebo.launch.py")
-        ),
-        launch_arguments={"world": world, "gui": launch_gui}.items()
+        PythonLaunchDescriptionSource([
+            os.path.join(pkg_gazebo_ros, "launch", "ign_gazebo.launch.py")
+        ]),
+        launch_arguments=[("ign_args", [world, " -v 4"])]
     )
 
     spawn_cmd = IncludeLaunchDescription(
@@ -114,6 +121,7 @@ def generate_launch_description():
     ld.add_action(initial_pose_z_cmd)
     ld.add_action(initial_pose_yaw_cmd)
 
+    ld.add_action(gz_bridge_cmd)
     ld.add_action(gazebo_cmd)
     ld.add_action(spawn_cmd)
     ld.add_action(rviz_cmd)

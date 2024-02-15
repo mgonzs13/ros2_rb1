@@ -16,11 +16,13 @@
 
 import os
 from ament_index_python import get_package_share_directory
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, ExecuteProcess
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from launch import LaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.actions import RegisterEventHandler
+from launch.event_handlers import OnProcessExit
 
 
 def generate_launch_description():
@@ -51,52 +53,48 @@ def generate_launch_description():
 
     ### NODES ###
     spawn_entity_cmd = Node(
-        package="gazebo_ros",
-        executable="spawn_entity.py",
-        arguments=["-entity", "rb1",
-                   "-topic", "robot_description",
-                   "-timeout", "120",
+        package="ros_ign_gazebo",
+        executable="create",
+        arguments=["-name", "rb1",
                    "-x", initial_pose_x,
                    "-y", initial_pose_y,
                    "-z", initial_pose_z,
-                   "-Y", initial_pose_yaw],
-        output="screen",
-        parameters=[{"use_sim_time": True}]
+                   "-Y", initial_pose_yaw,
+                   "-topic", "robot_description"],
+        output="screen"
     )
 
-    joint_state_broadcaster_spawner = Node(
-        name="joint_state_broadcaster_spawner",
-        package="controller_manager",
-        executable="spawner",
-        arguments=["joint_state_broadcaster",
-                   "--controller-manager", "/controller_manager",
-                   "--controller-manager-timeout", "120"],
+    load_diff_drive_controller = ExecuteProcess(
+        cmd=["ros2", "control", "load_controller", "--set-state", "active",
+             "diff_drive_base_controller"],
+        output="screen"
     )
 
-    torso_controller_spawner = Node(
-        name="torso_controller_spawner",
-        package="controller_manager",
-        executable="spawner",
-        arguments=["torso_controller",
-                   "--controller-manager", "/controller_manager",
-                   "--controller-manager-timeout", "120"],
+    load_joint_state_controller = ExecuteProcess(
+        cmd=["ros2", "control", "load_controller", "--set-state", "active",
+             "joint_state_broadcaster"],
+        output="screen"
     )
 
-    head_controller_spawner = Node(
-        name="head_controller_spawner",
-        package="controller_manager",
-        executable="spawner",
-        arguments=["head_controller",
-                   "--controller-manager", "/controller_manager",
-                   "--controller-manager-timeout", "120"],
+    load_torso_controller = ExecuteProcess(
+        cmd=["ros2", "control", "load_controller", "--set-state", "active",
+             "torso_controller"],
+        output="screen"
     )
 
-    ### LAUNCHES ###
+    load_head_controller = ExecuteProcess(
+        cmd=["ros2", "control", "load_controller", "--set-state", "active",
+             "head_controller"],
+        output="screen"
+    )
+
+    # LAUNCHES ###
     robot_state_publisher_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(get_package_share_directory(
                 "rb1_description"), "launch", "robot_state_publisher.launch.py")
-        )
+        ),
+        launch_arguments=[("use_sim_time", "true")]
     )
 
     ld = LaunchDescription()
@@ -106,10 +104,26 @@ def generate_launch_description():
     ld.add_action(initial_pose_z_cmd)
     ld.add_action(initial_pose_yaw_cmd)
 
+    ld.add_action(RegisterEventHandler(
+        event_handler=OnProcessExit(
+            target_action=spawn_entity_cmd,
+            on_exit=[load_joint_state_controller],
+        )
+    ))
+    ld.add_action(RegisterEventHandler(
+        event_handler=OnProcessExit(
+            target_action=load_joint_state_controller,
+            on_exit=[load_diff_drive_controller],
+        )
+    ))
+    ld.add_action(RegisterEventHandler(
+        event_handler=OnProcessExit(
+            target_action=load_diff_drive_controller,
+            on_exit=[load_head_controller, load_torso_controller],
+        )
+    ))
+
     ld.add_action(spawn_entity_cmd)
-    ld.add_action(joint_state_broadcaster_spawner)
-    ld.add_action(torso_controller_spawner)
-    ld.add_action(head_controller_spawner)
     ld.add_action(robot_state_publisher_cmd)
 
     return ld
