@@ -30,7 +30,7 @@ def generate_launch_description():
     world_cmd = DeclareLaunchArgument(
         "world",
         default_value=os.path.join(
-            get_package_share_directory("rb1_gazebo"), "world", "empty.world"),
+            get_package_share_directory("rb1_gazebo"), "worlds", "empty.world"),
         description="Gazebo world")
 
     map_yaml_file = LaunchConfiguration(
@@ -109,13 +109,14 @@ def generate_launch_description():
     rb1_gazebo_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(get_package_share_directory("rb1_gazebo"), "launch", "gazebo.launch.py")),
-        launch_arguments={"launch_gui": "True",
-                          "launch_rviz": "False",
-                          "world": world,
-                          "initial_pose_x": initial_gaz_pose_x,
-                          "initial_pose_y": initial_gaz_pose_y,
-                          "initial_pose_z": initial_gaz_pose_z,
-                          "initial_pose_yaw": initial_gaz_pose_yaw}.items()
+        launch_arguments={
+            "launch_rviz": "False",
+            "world": world,
+            "initial_pose_x": initial_gaz_pose_x,
+            "initial_pose_y": initial_gaz_pose_y,
+            "initial_pose_z": initial_gaz_pose_z,
+            "initial_pose_yaw": initial_gaz_pose_yaw
+        }.items()
     )
 
     ld = LaunchDescription()

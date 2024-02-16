@@ -38,12 +38,6 @@ def generate_launch_description():
             get_package_share_directory("rb1_gazebo"), "worlds", "empty.world"),
         description="Gazebo world")
 
-    launch_gui = LaunchConfiguration("launch_gui")
-    launch_gui_cmd = DeclareLaunchArgument(
-        "launch_gui",
-        default_value="True",
-        description="Whether launch gzclient")
-
     launch_rviz = LaunchConfiguration("launch_rviz")
     launch_rviz_cmd = DeclareLaunchArgument(
         "launch_rviz",
