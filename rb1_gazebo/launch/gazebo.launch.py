@@ -26,8 +26,7 @@ from launch.conditions import IfCondition
 
 def generate_launch_description():
 
-    launch_file_dir = os.path.join(
-        get_package_share_directory("rb1_gazebo"), "launch")
+    pkg_rb1_gazebo = get_package_share_directory("rb1_gazebo")
     pkg_gazebo_ros = get_package_share_directory("ros_ign_gazebo")
 
     ### ARGS ###
@@ -88,7 +87,8 @@ def generate_launch_description():
             "/camera/depth_image@sensor_msgs/msg/Image[gz.msgs.Image",
             "/camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo",
             "/camera/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked",
-            "/imu@sensor_msgs/msg/Imu[gz.msgs.IMU"
+            "/imu@sensor_msgs/msg/Imu[gz.msgs.IMU",
+            "/cmd_vel@geometry_msgs/msg/Twist[gz.msgs.Twist"
         ],
         parameters=[os.path.join(get_package_share_directory(
             "rb1_gazebo"), "config", "gz_bridge.yaml")],
@@ -100,12 +100,17 @@ def generate_launch_description():
         PythonLaunchDescriptionSource([
             os.path.join(pkg_gazebo_ros, "launch", "ign_gazebo.launch.py")
         ]),
-        launch_arguments=[("ign_args", [world, " -v 4"])]
+        launch_arguments=[("ign_args", [
+            world,
+            " -v 4",
+            " -r",
+            " --gui-config ", os.path.join(pkg_rb1_gazebo, "gui", "gui.config")
+        ])]
     )
 
     spawn_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(launch_file_dir, "spawn.launch.py")
+            os.path.join(pkg_rb1_gazebo, "launch", "spawn.launch.py")
         ),
         launch_arguments={
             "initial_pose_x": initial_pose_x,
@@ -117,7 +122,6 @@ def generate_launch_description():
 
     ld = LaunchDescription()
 
-    ld.add_action(launch_gui_cmd)
     ld.add_action(launch_rviz_cmd)
     ld.add_action(world_cmd)
     ld.add_action(initial_pose_x_cmd)
