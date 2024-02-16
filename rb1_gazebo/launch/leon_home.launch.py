@@ -31,11 +31,11 @@ def generate_launch_description():
         "RCUTILS_LOGGING_BUFFERED_STREAM", "1")
 
     map_yaml_file = os.path.join(
-        pkg_dir,
-        "maps/granny",
-        "GrannyAnnie.yaml")
+        get_package_share_directory("rb1_navigation"),
+        "maps/apartamento_leon",
+        "apartamento_leon_gimp_con_mesa_tv.yaml")
 
-    world = os.path.join(pkg_dir, "worlds", "GrannyAnnie.world")
+    world = os.path.join(pkg_dir, "worlds", "leon_home.world")
 
     gazebo_nav2_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -43,12 +43,12 @@ def generate_launch_description():
                          "launch", "gazebo_nav2.launch.py")),
         launch_arguments={"map": map_yaml_file,
                           "world": world,
-                          "initial_nav_pose_x": "0.0",
-                          "initial_nav_pose_y": "0.0",
-                          "initial_nav_pose_yaw": "3.1415",
-                          "initial_gaz_pose_x": "0.0",
-                          "initial_gaz_pose_y": "0.0",
-                          "initial_gaz_pose_yaw": "0.0"}.items())
+                          "initial_nav_pose_x": "1.336",
+                          "initial_nav_pose_y": "6.544",
+                          "initial_nav_pose_yaw": "0.0",
+                          "initial_gaz_pose_x": "-2.85",
+                          "initial_gaz_pose_y": "-3.3",
+                          "initial_gaz_pose_yaw": "1.572"}.items())
 
     ld = LaunchDescription()
 
