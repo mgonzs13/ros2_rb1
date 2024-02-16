@@ -100,8 +100,15 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>. -->
         <remapping>~/odom:=odom</remapping>
         <remapping>/tf:=tf</remapping>
         <remapping>/tf_static:=tf_static</remapping>
-        <remapping>/diagnostics:=diagnostics</remapping>
       </ros>
+    </plugin>
+
+    <plugin filename="libignition-gazebo-sensors-system.so" name="ignition::gazebo::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+
+    <plugin filename="libignition-gazebo-imu-system.so"
+            name="ignition::gazebo::systems::Imu">
     </plugin>
   </gazebo>
 

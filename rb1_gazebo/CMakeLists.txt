@@ -13,7 +13,7 @@ find_package(robot_state_publisher REQUIRED)
 find_package(controller_manager REQUIRED)
 
 install(
-  DIRECTORY launch maps worlds
+  DIRECTORY launch maps worlds config
   DESTINATION share/${PROJECT_NAME}
 )
 

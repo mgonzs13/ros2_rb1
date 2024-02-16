@@ -87,7 +87,17 @@ def generate_launch_description():
     gz_bridge_cmd = Node(
         package="ros_gz_bridge",
         executable="parameter_bridge",
-        arguments=["/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock"],
+        arguments=[
+            "/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock",
+            "/scan@sensor_msgs/msg/LaserScan[ignition.msgs.LaserScan",
+            "/camera/image@sensor_msgs/msg/Image[gz.msgs.Image",
+            "/camera/depth_image@sensor_msgs/msg/Image[gz.msgs.Image",
+            "/camera/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo",
+            "/camera/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked",
+            "/imu@sensor_msgs/msg/Imu[gz.msgs.IMU"
+        ],
+        parameters=[os.path.join(get_package_share_directory(
+            "rb1_gazebo"), "config", "gz_bridge.yaml")],
         output="screen"
     )
 
