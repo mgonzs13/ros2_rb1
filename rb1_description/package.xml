@@ -9,16 +9,12 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <depend>gazebo_ros2_control</depend>
-  <depend>gazebo_ros_pkgs</depend>
-  <depend>gazebo_plugins</depend>
+  <depend>ign_ros2_control</depend>
+  <depend>diff_drive_controller</depend>
   <depend>joint_state_broadcaster</depend>
   <depend>position_controllers</depend>
 
   <export>
     <build_type>ament_cmake</build_type>
-    <gazebo_ros                                                                 
-        gazebo_plugin_path="${prefix}/lib"
-        gazebo_model_path="${prefix}/.." /> 
   </export>
 </package>

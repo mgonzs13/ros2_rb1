@@ -12,14 +12,10 @@
   <depend>rb1_navigation</depend>
   <depend>xacro</depend>
   <depend>rviz2</depend>
-  <depend>gazebo_ros</depend>
-  <depend>robot_state_publisher</depend>
-  <depend>controller_manager</depend>
+  <depend>ros_ign_gazebo</depend>
+  <depend>ros_gz_bridge</depend>
 
   <export>
     <build_type>ament_cmake</build_type>
-    <gazebo_ros                                                                 
-        gazebo_plugin_path="${prefix}/lib"
-        gazebo_model_path="${prefix}/.." /> 
   </export>
 </package>
