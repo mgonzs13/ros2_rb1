@@ -257,16 +257,16 @@ Visualization Manager:
                     {}
                 imu_link:
                   {}
+                left_wheel_link:
+                  {}
                 omni_back_wheel_link:
                   {}
                 omni_front_left_wheel_link:
                   {}
                 omni_front_right_wheel_link:
                   {}
-              left_wheel_link:
-                {}
-              right_wheel_link:
-                {}
+                right_wheel_link:
+                  {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -569,7 +569,7 @@ Visualization Manager:
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Best Effort
-        Value: /camera/image_raw
+        Value: /camera/rgb/image_raw
       Value: true
   Enabled: true
   Global Options:
@@ -609,25 +609,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/XYOrbit
-      Distance: 11.123815536499023
+      Distance: 12.069707870483398
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.5392515659332275
-        Y: 1.2063379287719727
+        X: 0.7195682525634766
+        Y: 5.132976531982422
         Z: 3.242745515308343e-05
       Focal Shape Fixed Size: false
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.659797191619873
+      Pitch: 0.9497969746589661
       Target Frame: <Fixed Frame>
       Value: XYOrbit (rviz_default_plugins)
-      Yaw: 3.5199403762817383
+      Yaw: 3.1249372959136963
     Saved: ~
 Window Geometry:
   Displays:

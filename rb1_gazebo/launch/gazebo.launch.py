@@ -92,6 +92,12 @@ def generate_launch_description():
         ],
         parameters=[os.path.join(get_package_share_directory(
             "rb1_gazebo"), "config", "gz_bridge.yaml")],
+        remappings=[
+            ("/camera/image", "/camera/rgb/image_raw"),
+            ("/camera/depth_image", "/camera/depth/image_raw"),
+            ("/camera/camera_info", "/camera/camera_info"),
+            ("/camera/points", "/camera/points")
+        ],
         output="screen"
     )
 
