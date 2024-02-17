@@ -100,7 +100,7 @@ def generate_launch_description():
         PythonLaunchDescriptionSource([
             os.path.join(pkg_gazebo_ros, "launch", "ign_gazebo.launch.py")
         ]),
-        launch_arguments=[("ign_args", [
+        launch_arguments=[("gz_args", [
             world,
             " -v 4",
             " -r",

@@ -1,6 +1,6 @@
 controller_manager:
   ros__parameters:
-    update_rate: 100  # Hz
+    update_rate: 100 # Hz
 
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
@@ -16,10 +16,10 @@ controller_manager:
 
 diff_drive_base_controller:
   ros__parameters:
-    left_wheel_names: ["left_wheel_joint"]
-    right_wheel_names: ["right_wheel_joint"]
+    left_wheel_names: [left_wheel_joint]
+    right_wheel_names: [right_wheel_joint]
 
-    wheel_separation: 0.433
+    wheel_separation: 0.366
     #wheels_per_side: 1  # actually 2, but both are controlled by 1 signal
     wheel_radius: 0.076
 
@@ -30,11 +30,11 @@ diff_drive_base_controller:
     publish_rate: 50.0
     odom_frame_id: odom
     base_frame_id: base_footprint
-    pose_covariance_diagonal : [0.001, 0.001, 0.0, 0.0, 0.0, 0.01]
+    pose_covariance_diagonal: [0.001, 0.001, 0.0, 0.0, 0.0, 0.01]
     twist_covariance_diagonal: [0.001, 0.0, 0.0, 0.0, 0.0, 0.01]
 
     open_loop: true
-    enable_odom_tf: true
+    enable_odom_tf: false
 
     cmd_vel_timeout: 0.5
     #publish_limited_velocity: true
