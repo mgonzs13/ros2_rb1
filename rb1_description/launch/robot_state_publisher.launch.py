@@ -31,13 +31,6 @@ def generate_launch_description():
         "rb1_robot.urdf.xacro"]
     )
 
-    namespace = LaunchConfiguration("namespace")
-    namespace_cmd = DeclareLaunchArgument(
-        "namespace",
-        default_value="",
-        description="Robot namespace"
-    )
-
     use_sim_time_cmd = DeclareLaunchArgument(
         "use_sim_time",
         default_value="false",
@@ -75,7 +68,6 @@ def generate_launch_description():
 
     ld = LaunchDescription()
 
-    ld.add_action(namespace_cmd)
     ld.add_action(use_sim_time_cmd)
     ld.add_action(robot_state_publisher_cmd)
     ld.add_action(joint_state_publisher_cmd)
