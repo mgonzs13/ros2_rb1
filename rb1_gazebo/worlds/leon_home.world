@@ -1621,7 +1621,7 @@
       </link>
       <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
-      <pose>-7.49102 -0.270819 0.5 0 -0 0</pose>
+      <pose>-7.49102 -0.270819 0.35 0 -0 0</pose>
     </model>
     <model name="bed">
       <link name="link">

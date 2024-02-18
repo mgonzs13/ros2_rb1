@@ -64,6 +64,23 @@ def generate_launch_description():
         output="screen"
     )
 
+    camera_tf = Node(
+        name="camera_stf",
+        package="tf2_ros",
+        executable="static_transform_publisher",
+        output="screen",
+        arguments=[
+                "0", "0", "0",
+                "1.5707", "-1.5707", "0",
+                "camera_frame",
+                "rb1/eyes_link/rgbd_camera"
+        ],
+        remappings=[
+            ("/tf", "tf"),
+            ("/tf_static", "tf_static"),
+        ]
+    )
+
     load_diff_drive_controller = ExecuteProcess(
         cmd=["ros2", "control", "load_controller", "--set-state", "active",
              "diff_drive_base_controller"],
@@ -124,6 +141,7 @@ def generate_launch_description():
     ))
 
     ld.add_action(spawn_entity_cmd)
+    ld.add_action(camera_tf)
     ld.add_action(robot_state_publisher_cmd)
 
     return ld
