@@ -27,7 +27,7 @@ from launch.conditions import IfCondition
 def generate_launch_description():
 
     pkg_rb1_gazebo = get_package_share_directory("rb1_gazebo")
-    pkg_gazebo_ros = get_package_share_directory("ros_ign_gazebo")
+    pkg_gazebo_ros = get_package_share_directory("ros_gz_sim")
 
     ### ARGS ###
     world = LaunchConfiguration("world")
@@ -104,7 +104,7 @@ def generate_launch_description():
     ### LAUNCHS ###
     gazebo_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
-            os.path.join(pkg_gazebo_ros, "launch", "ign_gazebo.launch.py")
+            os.path.join(pkg_gazebo_ros, "launch", "gz_sim.launch.py")
         ]),
         launch_arguments=[("gz_args", [
             world,

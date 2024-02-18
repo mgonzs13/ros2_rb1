@@ -53,7 +53,7 @@ def generate_launch_description():
 
     ### NODES ###
     spawn_entity_cmd = Node(
-        package="ros_ign_gazebo",
+        package="ros_gz_sim",
         executable="create",
         arguments=["-name", "rb1",
                    "-x", initial_pose_x,
