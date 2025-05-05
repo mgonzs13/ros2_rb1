@@ -6,14 +6,13 @@
   <description>Robotnik RB1 description package</description>
   <maintainer email="mgons@unileon.es">Miguel Ángel González Santamarta</maintainer>
   <license>GPL-3</license>
-
   <buildtool_depend>ament_cmake</buildtool_depend>
-
   <depend>ign_ros2_control</depend>
   <depend>diff_drive_controller</depend>
   <depend>joint_state_broadcaster</depend>
   <depend>position_controllers</depend>
-
+  <depend>joint_state_publisher</depend>
+  <depend>ros2_control</depend>
   <export>
     <build_type>ament_cmake</build_type>
   </export>
